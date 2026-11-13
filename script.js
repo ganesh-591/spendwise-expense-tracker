@@ -753,7 +753,15 @@ function updateBudget() {
     progressFill.style.width = `${progress}%`;
 
     // Budget alerts
+budgetSummary.classList.remove(
+    "budget-normal",
+    "budget-warning",
+    "budget-exceeded"
+);
+
     if (percentage >= 100) {
+
+        budgetSummary.classList.add("budget-exceeded");
 
         progressFill.style.backgroundColor = "#dc2626";
 
@@ -762,20 +770,25 @@ function updateBudget() {
 
     } else if (percentage >= 80) {
 
+        budgetSummary.classList.add("budget-warning");
+
         progressFill.style.backgroundColor = "#f59e0b";
 
         budgetSummary.textContent =
             `Warning! You have used ${percentage.toFixed(1)}% of your monthly budget.`;
 
     } else {
-
+        budgetSummary.classList.add("budget-normal");
+        
         progressFill.style.backgroundColor = "#2563eb";
 
         budgetSummary.textContent =
             `₹${totalExpenses.toFixed(2)} spent this month out of ₹${budgetLimit.toFixed(2)}`;
 
     }
+    
 }
+
 
 
 // ==========================================

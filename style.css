@@ -1482,3 +1482,52 @@ table {
     color: #172554;
     font: inherit;
 }
+/* Mobile Monthly Report Month Picker */
+
+@media (max-width: 600px) {
+
+    .report-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .report-controls label {
+        font-size: 14px;
+    }
+
+    .report-controls input {
+        width: 100%;
+        min-height: 48px;
+        padding: 12px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+}
+#budget-summary {
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+#budget-summary.budget-normal {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-left: 4px solid #2563eb;
+}
+
+#budget-summary.budget-warning {
+    background: #fffbeb;
+    color: #b45309;
+    border-left: 4px solid #f59e0b;
+}
+
+#budget-summary.budget-exceeded {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-left: 4px solid #dc2626;
+}
