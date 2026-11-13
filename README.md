@@ -57,4 +57,4 @@ SpendWise uses browser LocalStorage to save transaction data. Data remains avail
 **Ganesh Kopparthi**
 
 - LinkedIn: https://www.linkedin.com/in/ganesh-kopparthi-716664300/
-- GitHub: https://github.com/ganesh-591
+- GitHub: https://github.com/ganesh-591/spendwise-expense-tracker
