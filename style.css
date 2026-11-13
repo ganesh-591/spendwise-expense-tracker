@@ -1454,3 +1454,31 @@ table {
         color: #64748b;
     }
 }
+/* Keep transaction date column readable */
+
+.table-container th:nth-child(3),
+.table-container td:nth-child(3) {
+    min-width: 115px;
+    width: 115px;
+    white-space: nowrap;
+}
+.month-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.month-filter-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.month-filter-group input {
+    padding: 9px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #172554;
+    font: inherit;
+}
