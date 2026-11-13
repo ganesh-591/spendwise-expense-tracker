@@ -967,6 +967,7 @@ function updateMonthlyExpenseChart() {
 // MONTHLY SAVINGS TREND
 // ==========================================
 
+
 function updateMonthlySavingsTrend() {
 
     const trendContainer = document.getElementById(
@@ -974,77 +975,79 @@ function updateMonthlySavingsTrend() {
     );
 
     if (!trendContainer) {
-    return;
-}
-
-// Find the latest month from current date and transactions
-const currentDate = new Date();
-
-let latestMonth =
-    currentDate.getFullYear() + "-" +
-    String(currentDate.getMonth() + 1).padStart(2, "0");
-
-transactions.forEach(function (transaction) {
-
-    const transactionMonth = transaction.date.substring(0, 7);
-
-    if (transactionMonth > latestMonth) {
-        latestMonth = transactionMonth;
+        return;
     }
 
-});
+    // Group transactions by month
+    const monthlyData = {};
 
-const [year, month] = latestMonth.split("-").map(Number);
+    transactions.forEach(function (transaction) {
 
-    const months = [];
+        const amount = Number(transaction.amount);
 
-    // Get the selected month and previous 5 months
-    for (let i = 5; i >= 0; i--) {
+        if (
+            !transaction.date ||
+            !Number.isFinite(amount) ||
+            amount <= 0
+        ) {
+            return;
+        }
 
-        const date = new Date(year, month - 1 - i, 1);
+        const monthKey = transaction.date.substring(0, 7);
 
-        const monthKey =
-            date.getFullYear() + "-" +
-            String(date.getMonth() + 1).padStart(2, "0");
+        if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(monthKey)) {
+            return;
+        }
 
-        const monthName = date.toLocaleString("en-IN", {
-            month: "short",
-            year: "numeric"
-        });
+        if (!monthlyData[monthKey]) {
+            monthlyData[monthKey] = {
+                income: 0,
+                expenses: 0
+            };
+        }
 
-        let income = 0;
-        let expenses = 0;
+        if (transaction.type === "income") {
+            monthlyData[monthKey].income += amount;
+        } else if (transaction.type === "expense") {
+            monthlyData[monthKey].expenses += amount;
+        }
 
-        transactions.forEach(function (transaction) {
+    });
 
-            if (!transaction.date.startsWith(monthKey)) {
-                return;
-            }
-
-            const amount = Number(transaction.amount);
-
-            if (!Number.isFinite(amount)) {
-                return;
-            }
-
-            if (transaction.type === "income") {
-                income += amount;
-            } else if (transaction.type === "expense") {
-                expenses += amount;
-            }
-
-        });
-
-        months.push({
-            name: monthName,
-            income: income,
-            expenses: expenses,
-            savings: income - expenses
-        });
-
-    }
+    // Get only months containing transactions
+    const activeMonths = Object.keys(monthlyData)
+        .sort()
+        .slice(-6);
 
     trendContainer.innerHTML = "";
+
+    if (activeMonths.length === 0) {
+        trendContainer.textContent =
+            "No transaction history available yet.";
+        return;
+    }
+
+    const months = activeMonths.map(function (monthKey) {
+
+        const data = monthlyData[monthKey];
+
+        const date = new Date(
+            Number(monthKey.substring(0, 4)),
+            Number(monthKey.substring(5, 7)) - 1,
+            1
+        );
+
+        return {
+            name: date.toLocaleString("en-IN", {
+                month: "short",
+                year: "numeric"
+            }),
+            income: data.income,
+            expenses: data.expenses,
+            savings: data.income - data.expenses
+        };
+
+    });
 
     const highestAmount = Math.max(
         1,
