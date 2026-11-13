@@ -1465,22 +1465,21 @@ table {
 .month-filter-group {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 5px;
 }
 
-.month-filter-group label {
-    font-size: 12px;
-    font-weight: 600;
-    color: #475569;
-}
-
-.month-filter-group input {
-    padding: 9px 10px;
-    border: 1px solid #cbd5e1;
+.month-filter-group input[type="month"] {
+    width: 200px;
+    max-width: 100%;
+    min-height: 42px;
+    padding: 8px 10px;
+    box-sizing: border-box;
     border-radius: 8px;
     background: #ffffff;
+    border: 1px solid #cbd5e1;
     color: #172554;
-    font: inherit;
+    font-size: 14px;
 }
 /* Mobile Monthly Report Month Picker */
 
@@ -1530,4 +1529,47 @@ table {
     background: #fef2f2;
     color: #b91c1c;
     border-left: 4px solid #dc2626;
+}
+
+/* Month filter custom placeholder */
+
+.month-filter-wrapper {
+    position: relative;
+    width: 200px;
+    max-width: 100%;
+}
+
+.month-filter-wrapper input[type="month"] {
+    width: 100%;
+    height: 48px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+}
+
+/* Hide native dashes when empty */
+.month-filter-wrapper input:invalid::-webkit-datetime-edit {
+    color: transparent;
+}
+
+/* Custom placeholder */
+.month-filter-hint {
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.month-filter-wrapper input:invalid + .month-filter-hint {
+    display: block;
+}
+
+.month-filter-wrapper input:valid + .month-filter-hint {
+    display: none;
 }
